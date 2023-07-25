@@ -1,6 +1,8 @@
 package com.sunhy.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sunhy.common.R;
 import com.sunhy.entity.Employee;
 import com.sunhy.service.IEmployeeService;
@@ -8,10 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -88,5 +87,22 @@ public class EmployeeController {
 //        }
         employeeService.save(employee);
         return  R.success("新增员工成功^_^");
+    }
+
+    //分页查询员工
+    @GetMapping("/page")
+    public R<Page>page(Integer page,Integer pageSize,String name){
+        log.info("分页查询员工：pageNum={},pageSize={},name={}",page,pageSize,name);
+        //构造分页构造器
+        Page<Employee> pageI = new Page<>(page, pageSize);
+        //构造查询构造器
+        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
+        //模糊查询
+        queryWrapper.like(StringUtils.isNotEmpty(name),Employee::getName,name);
+        //排序
+        queryWrapper.orderByDesc(Employee::getUpdateTime);
+        //分页查询
+        employeeService.page(pageI,queryWrapper);
+        return R.success(pageI);
     }
 }
