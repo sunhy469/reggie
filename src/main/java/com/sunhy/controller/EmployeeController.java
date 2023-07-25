@@ -117,4 +117,15 @@ public class EmployeeController {
         employeeService.updateById(employee);
         return R.success("修改员工信息成功^_^");
     }
+
+
+    //根据ID查看员工信息
+    @GetMapping("/{id}")
+    public R<Employee>getById(@PathVariable Long id){
+        log.info("根据ID查询员工信息：{}",id);
+        Employee employee = employeeService.getById(id);
+        if (employee==null)
+            return R.error("员工不存在-_-");
+        return R.success(employee);
+    }
 }
