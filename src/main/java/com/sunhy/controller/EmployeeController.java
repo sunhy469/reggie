@@ -105,4 +105,16 @@ public class EmployeeController {
         employeeService.page(pageI,queryWrapper);
         return R.success(pageI);
     }
+
+    //根据ID修改员工信息
+    @PutMapping
+    public R<String> update(HttpServletRequest request,@RequestBody Employee employee){
+        log.info("修改员工信息：{}",employee.toString());
+        //1.设置更新时间
+        employee.setUpdateTime(LocalDateTime.now());
+        //2.设置更新人
+        employee.setUpdateUser((Long) request.getSession().getAttribute("employee"));
+        employeeService.updateById(employee);
+        return R.success("修改员工信息成功^_^");
+    }
 }
