@@ -90,7 +90,7 @@ public class EmployeeController {
 
     //分页查询员工
     @GetMapping("/page")
-    public R<Page>page(Integer page,Integer pageSize,String name){
+    public R<Page<Employee>>page(Integer page,Integer pageSize,String name){
         log.info("分页查询员工：pageNum={},pageSize={},name={}",page,pageSize,name);
         //构造分页构造器
         Page<Employee> pageI = new Page<>(page, pageSize);
