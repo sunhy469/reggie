@@ -71,13 +71,13 @@ public class EmployeeController {
         log.info("新增员工：{}",employee);
         //1.对密码进行MD5加密
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+        //employee.setCreateTime(LocalDateTime.now());
+        //employee.setUpdateTime(LocalDateTime.now());
 
         //2.设置创建人
-        Long empID = (Long) request.getSession().getAttribute("employee");
-        employee.setCreateUser(empID);
-        employee.setUpdateUser(empID);
+//        Long empID = (Long) request.getSession().getAttribute("employee");
+//        employee.setCreateUser(empID);
+//        employee.setUpdateUser(empID);
 
         //3.保存到数据库,不建议在Controller层捕获异常，应该抛给上层处理
 //        try {
@@ -111,9 +111,9 @@ public class EmployeeController {
     public R<String> update(HttpServletRequest request,@RequestBody Employee employee){
         log.info("修改员工信息：{}",employee.toString());
         //1.设置更新时间
-        employee.setUpdateTime(LocalDateTime.now());
+        //employee.setUpdateTime(LocalDateTime.now());
         //2.设置更新人
-        employee.setUpdateUser((Long) request.getSession().getAttribute("employee"));
+        //employee.setUpdateUser((Long) request.getSession().getAttribute("employee"));
         employeeService.updateById(employee);
         return R.success("修改员工信息成功^_^");
     }

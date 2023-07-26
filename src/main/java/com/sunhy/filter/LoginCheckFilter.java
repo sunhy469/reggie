@@ -1,6 +1,7 @@
 package com.sunhy.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.sunhy.common.BaseContext;
 import com.sunhy.common.R;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
@@ -62,6 +63,8 @@ public class LoginCheckFilter implements Filter {
         //判断登录状态,已经登录直接放行
         if (request.getSession().getAttribute("employee") != null) {
             log.info("用户已经登录");
+            Long id=(Long) request.getSession().getAttribute("employee");
+            BaseContext.setCurrenID(id);
             filterChain.doFilter(request, response);
             return;
         }
