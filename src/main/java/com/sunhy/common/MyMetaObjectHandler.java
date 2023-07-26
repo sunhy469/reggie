@@ -1,13 +1,11 @@
 package com.sunhy.common;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import lombok.extern.apachecommons.CommonsLog;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.prefs.BackingStoreException;
 
 /**
  * @Author: 波波
