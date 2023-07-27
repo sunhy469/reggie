@@ -137,35 +137,35 @@ input[type="number"] {
 }
 @font-face {
   font-family: "DIN-Medium";
-  src: url("../../front/fonts/DIN-Medium.otf");
+  src: url("DIN-Medium.otf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "DIN";
-  src: url("../../front/fonts/DIN-Bold.otf");
+  src: url("DIN-Bold.otf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "PingFangSC-Medium";
-  src: url("../../front/fonts/PingFangSC-Medium.ttf");
+  src: url("PingFangSC-Medium.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "PingFangSC-Regular";
-  src: url("../../front/fonts/PingFangSC-Regular.ttf");
+  src: url("PingFangSC-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "PingFangSC-Semibold";
-  src: url("../../front/fonts/PingFangSC-Semibold.ttf");
+  src: url("PingFangSC-Semibold.ttf");
   font-weight: normal;
   font-style: normal;
 }
