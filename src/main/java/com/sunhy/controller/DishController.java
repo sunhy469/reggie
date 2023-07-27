@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,5 +101,15 @@ public class DishController {
         dishService.deleteById(ids);
 
         return R.success("删除成功^_^");
+    }
+
+    //状态修改
+    @PostMapping("/status/{status}")
+    public R<String> statusUpdate(@PathVariable int status, Long[] ids){
+        log.info("修改菜品状态"+status+" "+ Arrays.toString(ids));
+
+        dishService.updateStatus(status,ids);
+
+        return R.success("修改成功");
     }
 }

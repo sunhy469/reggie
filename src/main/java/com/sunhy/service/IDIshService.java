@@ -22,4 +22,6 @@ public interface IDIshService extends IService<Dish> {
 
     //逻辑删除菜品信息
     public void deleteById(Long[] ids);
+
+    public void updateStatus(int status, Long[] ids);
 }

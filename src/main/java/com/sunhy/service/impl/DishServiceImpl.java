@@ -42,7 +42,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements ID
         //保存口味
         Long dishID = dishDto.getId();
         List<DishFlavor> flavors = dishDto.getFlavors();
-        flavors=flavors.stream().map((item)->{
+        flavors = flavors.stream().map((item) -> {
             item.setDishId(dishID);
             return item;
         }).collect(Collectors.toList());
@@ -56,9 +56,9 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements ID
         DishDto dishDto = new DishDto();
         Dish dish = this.getById(id);
 
-        BeanUtils.copyProperties(dish,dishDto);
+        BeanUtils.copyProperties(dish, dishDto);
         LambdaQueryWrapper<DishFlavor> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(DishFlavor::getDishId,dish.getId());
+        wrapper.eq(DishFlavor::getDishId, dish.getId());
         List<DishFlavor> flavors = dishFlavorService.list(wrapper);
         dishDto.setFlavors(flavors);
 
@@ -73,11 +73,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements ID
 
         Long dishID = dishDto.getId();
         LambdaQueryWrapper<DishFlavor> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(DishFlavor::getDishId,dishID);
+        wrapper.eq(DishFlavor::getDishId, dishID);
         dishFlavorService.remove(wrapper);
 
         List<DishFlavor> flavors = dishDto.getFlavors();
-        flavors=flavors.stream().map((item)->{
+        flavors = flavors.stream().map((item) -> {
             item.setDishId(dishID);
             return item;
         }).collect(Collectors.toList());
@@ -96,12 +96,15 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements ID
             dishFlavorService.remove(wrapper);
         });
 
-//        for (Long id : ids) {
-//            this.removeById(id);
-//
-//            LambdaQueryWrapper<DishFlavor> wrapper = new LambdaQueryWrapper<>();
-//            wrapper.eq(DishFlavor::getDishId,id);
-//            dishFlavorService.remove(wrapper);
-//        }
+    }
+
+    @Override
+    public void updateStatus(int status, Long[] ids) {
+        Arrays.stream(ids).forEach(id -> {
+            Dish dish = this.getById(id);
+            //这个判断很奇妙，在表中status为1才是启用状态，但是客户端发请求修改状态时恰好相反
+            dish.setStatus(status == 0 ? 0 : 1);
+            this.updateById(dish);
+        });
     }
 }
