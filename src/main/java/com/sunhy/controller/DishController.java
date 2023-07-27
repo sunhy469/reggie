@@ -1,15 +1,21 @@
 package com.sunhy.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sunhy.common.R;
 import com.sunhy.dto.DishDto;
+import com.sunhy.entity.Category;
+import com.sunhy.entity.Dish;
+import com.sunhy.service.ICategoryService;
 import com.sunhy.service.IDIshService;
 import com.sunhy.service.IDishFlavorService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: 波波
@@ -28,6 +34,9 @@ public class DishController {
     @Autowired
     private IDishFlavorService dishFlavorService;
 
+    @Autowired
+    private ICategoryService categoryService;
+
     //新增菜品
     @PostMapping
     public R<String> save(@RequestBody DishDto dishDto){
@@ -36,5 +45,34 @@ public class DishController {
         dishService.saveWithFlavor(dishDto);
 
         return R.success("新增菜品成功^_^");
+    }
+
+    //菜品信息分页查询
+    @GetMapping("/page")
+    public R<Page<DishDto>> page(Integer page, Integer pageSize, String name){
+        Page<Dish> pageInfo = new Page<>(page,pageSize);
+        Page<DishDto> dishDtoPage = new Page<>();
+
+        LambdaQueryWrapper<Dish> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(name!=null,Dish::getName,name);
+        wrapper.orderByDesc(Dish::getUpdateTime);
+        dishService.page(pageInfo,wrapper);
+
+        //拷贝
+        BeanUtils.copyProperties(pageInfo,dishDtoPage,"records");
+
+        List<Dish> records = pageInfo.getRecords();
+        List<DishDto> list=records.stream().map((item)->{
+            DishDto dishDto = new DishDto();
+            BeanUtils.copyProperties(item,dishDto);
+            Long categoryId = item.getCategoryId();
+            Category category = categoryService.getById(categoryId);
+            String categoryName = category.getName();
+            dishDto.setCategoryName(categoryName);
+            return dishDto;
+        }).collect(Collectors.toList());
+        dishDtoPage.setRecords(list);
+
+        return R.success(dishDtoPage);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
@@ -42,5 +43,11 @@ public class GlobalExceptionHandler {
     public R<String> exceptionHandler(CustomException exception){
         log.error(exception.getMessage());
         return R.error(exception.getMessage());
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public R<String> exceptionHandler(FileNotFoundException exception){
+//        log.error(exception.getMessage());
+        return R.error("文件上传失败，请稍后重试-_-");
     }
 }
