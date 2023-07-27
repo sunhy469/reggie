@@ -43,9 +43,9 @@ public class LoginCheckFilter implements Filter {
         //判断本次请求是否需要处理
         //不需要处理,直接放行的URL urls
         String[] urls = new String[]{
+                "/backend/**",
                 "/employee/login",
                 "/employee/logout",
-                "/backend/**",
                 "/front/**"
         };
 

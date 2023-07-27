@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Author: 波波
  * @DATE: 2023/1/30 19:44
@@ -60,5 +62,16 @@ public class CategoryController {
         //这里已经自动填充了updateTime和updateUser
         categoryService.updateById(category);
         return R.success("修改分类成功^_^");
+    }
+
+    //根据条件查询分类数据,填充下拉框的数据
+    @GetMapping("/list")
+    public R<List<Category>> list(Category category){
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(category.getType()!=null,Category::getType,category.getType());
+        wrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
+
+        List<Category> list = categoryService.list(wrapper);
+        return R.success(list);
     }
 }
