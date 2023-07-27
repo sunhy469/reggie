@@ -67,12 +67,30 @@ public class DishController {
             BeanUtils.copyProperties(item,dishDto);
             Long categoryId = item.getCategoryId();
             Category category = categoryService.getById(categoryId);
-            String categoryName = category.getName();
-            dishDto.setCategoryName(categoryName);
+            if (category!=null) {
+                String categoryName = category.getName();
+                dishDto.setCategoryName(categoryName);
+            }
             return dishDto;
         }).collect(Collectors.toList());
         dishDtoPage.setRecords(list);
 
         return R.success(dishDtoPage);
     }
+
+    //回显菜品数据
+    @GetMapping("/{id}")
+    public R<DishDto> get(@PathVariable Long id){
+        DishDto dishDto = dishService.getByIdWithFlavor(id);
+        return R.success(dishDto);
+    }
+
+    //修改菜品
+    @PutMapping
+    public R<String> update(@RequestBody DishDto dishDto){
+        log.info("修改菜品数据"+dishDto);
+        dishService.updateWithFlavor(dishDto);
+        return R.success("修改菜品成功^_^");
+    }
+
 }

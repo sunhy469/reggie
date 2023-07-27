@@ -1,5 +1,6 @@
 package com.sunhy.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sunhy.dto.DishDto;
 import com.sunhy.entity.Dish;
@@ -8,6 +9,7 @@ import com.sunhy.mapper.DishMapper;
 import com.sunhy.service.IDIshService;
 import com.sunhy.service.IDishFlavorService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,41 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements ID
         this.save(dishDto);
         //保存口味
         Long dishID = dishDto.getId();
+        List<DishFlavor> flavors = dishDto.getFlavors();
+        flavors=flavors.stream().map((item)->{
+            item.setDishId(dishID);
+            return item;
+        }).collect(Collectors.toList());
+
+        dishFlavorService.saveBatch(flavors);
+    }
+
+    //查询菜品，同时查询对应得到口味
+    @Override
+    public DishDto getByIdWithFlavor(Long id) {
+        DishDto dishDto = new DishDto();
+        Dish dish = this.getById(id);
+
+        BeanUtils.copyProperties(dish,dishDto);
+        LambdaQueryWrapper<DishFlavor> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(DishFlavor::getDishId,dish.getId());
+        List<DishFlavor> flavors = dishFlavorService.list(wrapper);
+        dishDto.setFlavors(flavors);
+
+        return dishDto;
+    }
+
+    //更新菜品信息，同时更新口味
+    @Override
+    @Transactional
+    public void updateWithFlavor(DishDto dishDto) {
+        this.updateById(dishDto);
+
+        Long dishID = dishDto.getId();
+        LambdaQueryWrapper<DishFlavor> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(DishFlavor::getDishId,dishID);
+        dishFlavorService.remove(wrapper);
+
         List<DishFlavor> flavors = dishDto.getFlavors();
         flavors=flavors.stream().map((item)->{
             item.setDishId(dishID);
