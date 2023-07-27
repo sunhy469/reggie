@@ -19,3 +19,6 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
+
+reggie:
+  path: D:\JAVA\github-item\reggie\src\main\java\com\sunhy\image\
