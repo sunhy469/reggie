@@ -52,4 +52,13 @@ public class CategoryController {
 //        categoryService.removeById(id);
         return R.success("删除分类成功^_^");
     }
+
+    //修改分类
+    @PutMapping
+    public R<String> update(@RequestBody Category category){
+        log.info("修改分类：{}",category);
+        //这里已经自动填充了updateTime和updateUser
+        categoryService.updateById(category);
+        return R.success("修改分类成功^_^");
+    }
 }
