@@ -19,6 +19,11 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
+      logic-delete-field: isDeleted
+      # 逻辑删除字面值：未删除为0
+      logic-not-delete-value: 0
+      # 逻辑删除字面值：删除为1
+      logic-delete-value: 1
 
 reggie:
   path: D:\JAVA\github-item\reggie\src\main\java\com\sunhy\image\

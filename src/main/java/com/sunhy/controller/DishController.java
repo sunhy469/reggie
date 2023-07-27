@@ -93,4 +93,12 @@ public class DishController {
         return R.success("修改菜品成功^_^");
     }
 
+//    删除菜品
+    @DeleteMapping
+    public R<String> delete(Long[] ids){
+
+        dishService.deleteById(ids);
+
+        return R.success("删除成功^_^");
+    }
 }

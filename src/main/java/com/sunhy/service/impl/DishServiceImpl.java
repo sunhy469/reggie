@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serial;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,5 +83,25 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements ID
         }).collect(Collectors.toList());
 
         dishFlavorService.saveBatch(flavors);
+    }
+
+    ////逻辑删除菜品信息
+    @Override
+    public void deleteById(Long[] ids) {
+        Arrays.stream(ids).forEach(id -> {
+            this.removeById(id);
+
+            LambdaQueryWrapper<DishFlavor> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(DishFlavor::getDishId, id);
+            dishFlavorService.remove(wrapper);
+        });
+
+//        for (Long id : ids) {
+//            this.removeById(id);
+//
+//            LambdaQueryWrapper<DishFlavor> wrapper = new LambdaQueryWrapper<>();
+//            wrapper.eq(DishFlavor::getDishId,id);
+//            dishFlavorService.remove(wrapper);
+//        }
     }
 }

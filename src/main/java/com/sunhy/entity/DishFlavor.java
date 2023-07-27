@@ -1,9 +1,6 @@
 package com.sunhy.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serial;
@@ -50,7 +47,7 @@ public class DishFlavor implements Serializable {
     private Long updateUser;
 
 
-    //是否删除
+    @TableLogic(value = "0",delval = "1")
     private Integer isDeleted;
 
 }
