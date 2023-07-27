@@ -13,7 +13,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 /**
  * @Author: 波波
  * @DATE: 2023/1/30 19:44
- * @Description: 全局异常处理（基于代理模式）
+ * @Description: 全局异常处理（基于代理模式）,捕获程序中出现的相应的异常在这里集中处理
  * @Version 1.0
  */
 
@@ -35,5 +35,12 @@ public class GlobalExceptionHandler {
             return R.error("账号"+username+"已存在，请检查后重试-_-");
         }
         return R.error("网络请求繁忙，请稍后重试-_-");
+    }
+
+    //处理自定义异常
+    @ExceptionHandler(CustomException.class)
+    public R<String> exceptionHandler(CustomException exception){
+        log.error(exception.getMessage());
+        return R.error(exception.getMessage());
     }
 }

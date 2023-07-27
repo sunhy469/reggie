@@ -1,8 +1,7 @@
 package com.sunhy.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sunhy.entity.Category;
-import com.sunhy.mapper.CategoryMapper;
+import com.sunhy.entity.Dish;
 
 /**
  * @Author: 波波
@@ -10,7 +9,5 @@ import com.sunhy.mapper.CategoryMapper;
  * @Description:
  * @Version 1.0
  */
-public interface ICategoryService extends IService<Category> {
-
-    public void remove(Long id);
+public interface IDIshService extends IService<Dish> {
 }
