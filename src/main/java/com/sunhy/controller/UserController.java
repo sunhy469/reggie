@@ -40,7 +40,8 @@ public class UserController {
             String code = ValidateCodeUtils.generateValidateCode(4).toString();
             log.info("生成的验证码为:{}",code);
             session.setAttribute("phone",code);
-            SMSUtils.sendMessage("Reggie外卖","",phone,code);
+            //阿里云短信服务
+//            SMSUtils.sendMessage("Reggie外卖","",phone,code);
             return R.success("验证码发送成功");
         }
         return R.error("手机号不能为空");
@@ -48,11 +49,11 @@ public class UserController {
 
     //APP端登录
     @PostMapping("/login")
-    public R<User> login(@RequestBody Map map, HttpSession session){
+    public R<User> login(@RequestBody Map<String,String> map, HttpSession session){
 
         log.info(map.toString());
-        String phone = map.get("phone").toString();
-        String code = map.get("code").toString();
+        String phone = map.get("phone");
+        String code = map.get("code");
 
         Object codeInSession = session.getAttribute("phone");
         if (codeInSession!=null&&codeInSession.equals(code)){

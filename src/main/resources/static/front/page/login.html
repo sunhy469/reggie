@@ -39,6 +39,7 @@
         <!-- 引入axios -->
         <script src="../../backend/plugins/axios/axios.min.js"></script>
         <script src="../js/request.js"></script>
+        <script src="../js/login.js"></script>
         <script src="../api/login.js"></script>
     </body>
     <script>
@@ -72,7 +73,13 @@
                 async btnLogin(){
                     if(this.form.phone && this.form.code){
                         this.loading = true
-                        const res = await loginApi({phone:this.form.phone},{code:this.form.code})
+                        //错误写法，只能接受一个参数
+                        // const res = await loginApi({phone:this.form.phone},{code:this.form.code})
+                        const data = {
+                            phone: this.form.phone,
+                            code: this.form.code
+                        };
+                        const res = await loginApi(data);
                         this.loading = false
                         if(res.code === 1){
                             sessionStorage.setItem("userPhone",this.form.phone)
