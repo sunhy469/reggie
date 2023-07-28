@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -63,5 +64,15 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
         queryWrapper.in(SetmealDish::getSetmealId,ids);
 
         setmealDishService.remove(queryWrapper);
+    }
+
+    //状态修改
+    @Override
+    public void updateStatus(Integer status, List<Long> ids) {
+        ids.forEach((id)->{
+            Setmeal setmeal = this.getById(id);
+            setmeal.setStatus(status==0?0:1);
+            this.updateById(setmeal);
+        });
     }
 }
