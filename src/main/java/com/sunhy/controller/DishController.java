@@ -112,4 +112,16 @@ public class DishController {
 
         return R.success("修改成功");
     }
+
+    //回显到套餐管理的菜品菜单
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish){
+        LambdaQueryWrapper<Dish> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(dish.getCategoryId()!=null,Dish::getCategoryId,dish.getCategoryId())
+                .eq(dish.getStatus()!=null,Dish::getStatus,dish.getStatus());
+        wrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+
+        List<Dish> list = dishService.list(wrapper);
+        return R.success(list);
+    }
 }

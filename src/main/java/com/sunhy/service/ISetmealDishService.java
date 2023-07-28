@@ -1,8 +1,7 @@
 package com.sunhy.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sunhy.dto.SetmealDto;
-import com.sunhy.entity.Setmeal;
+import com.sunhy.entity.SetmealDish;
 
 /**
  * @Author: 波波
@@ -10,7 +9,5 @@ import com.sunhy.entity.Setmeal;
  * @Description:
  * @Version 1.0
  */
-public interface ISetmealService extends IService<Setmeal> {
-
-    void saveWithDish(SetmealDto setmealDto);
+public interface ISetmealDishService extends IService<SetmealDish> {
 }
