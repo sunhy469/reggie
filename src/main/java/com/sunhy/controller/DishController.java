@@ -9,6 +9,7 @@ import com.sunhy.entity.Dish;
 import com.sunhy.service.ICategoryService;
 import com.sunhy.service.IDIshService;
 import com.sunhy.service.IDishFlavorService;
+import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +97,7 @@ public class DishController {
 
 //    删除菜品
     @DeleteMapping
-    public R<String> delete(Long[] ids){
+    public R<String> delete(@RequestParam(name = "ids") Long[] ids){
 
         dishService.deleteById(ids);
 

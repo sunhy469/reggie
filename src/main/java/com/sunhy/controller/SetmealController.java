@@ -9,6 +9,7 @@ import com.sunhy.entity.Setmeal;
 import com.sunhy.service.ICategoryService;
 import com.sunhy.service.ISetmealDishService;
 import com.sunhy.service.ISetmealService;
+import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,4 +78,13 @@ public class SetmealController {
         return R.success(setmealDtoPage);
     }
 
+    //删除套餐
+    @DeleteMapping
+    public R<String> delete(@RequestParam(name = "ids") List<Long> ids){
+        log.info("删除套餐数据"+ids);
+
+        setmealService.removeWithDish(ids);
+
+        return R.success("删除套餐成功^_^");
+    }
 }
