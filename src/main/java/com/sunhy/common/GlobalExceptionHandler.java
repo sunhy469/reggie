@@ -24,7 +24,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 public class GlobalExceptionHandler {
 
     //处理新增员工重名异常
-    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+//    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public R<String> exceptionHandler(SQLIntegrityConstraintViolationException exception){
         log.error(exception.getMessage());
 
@@ -35,8 +35,8 @@ public class GlobalExceptionHandler {
             String username = split[2];
             if (exception.getMessage().contains("employee.idx_username"))
                 return R.error("账号"+username+"已存在，请检查后重试-_-");
-            if (exception.getMessage().contains("dish.idx_dish_name"))
-                return R.error("菜品"+username+"已存在或已被删除，请检查后重试-_-");
+//            if (exception.getMessage().contains("dish.idx_dish_name"))
+//                return R.error("菜品"+username+"已存在或已被删除，请检查后重试-_-");
         }
         //这个地方有问题，就是如果菜品被删除后再添加会添加不上了
         return R.error("网络请求繁忙，请稍后重试-_-");

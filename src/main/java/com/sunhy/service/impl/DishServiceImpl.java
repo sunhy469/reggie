@@ -77,12 +77,12 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements ID
         dishFlavorService.remove(wrapper);
 
         List<DishFlavor> flavors = dishDto.getFlavors();
-        flavors = flavors.stream().map((item) -> {
+        List<DishFlavor> newFavors = flavors.stream().map((item) -> {
             item.setDishId(dishID);
             return item;
         }).collect(Collectors.toList());
 
-        dishFlavorService.saveBatch(flavors);
+        dishFlavorService.saveBatch(newFavors);
     }
 
     ////逻辑删除菜品信息
