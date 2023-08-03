@@ -10,6 +10,23 @@ spring:
     password: shy20040609
     type: com.alibaba.druid.pool.DruidDataSource
 
+  data:
+    redis:
+      host: 192.168.88.134
+      port: 6379
+      password: 123456
+      database: 0
+
+      jedis:
+        pool:
+          max-wait: 1ms
+          max-active: 8
+          max-idle: 4
+          min-idle: 0
+
+
+
+
 
 mybatis-plus:
   configuration:
