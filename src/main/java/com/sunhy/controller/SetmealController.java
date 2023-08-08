@@ -9,14 +9,14 @@ import com.sunhy.entity.Setmeal;
 import com.sunhy.service.ICategoryService;
 import com.sunhy.service.ISetmealDishService;
 import com.sunhy.service.ISetmealService;
-import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -41,6 +41,7 @@ public class SetmealController {
     private ICategoryService categoryService;
 
     @PostMapping
+    @CacheEvict(value = "setmealCache",allEntries = true)//清除缓存
     public R<String> save(@RequestBody SetmealDto setmealDto){
         log.info("套餐信息"+setmealDto);
 
@@ -81,6 +82,7 @@ public class SetmealController {
 
     //删除套餐
     @DeleteMapping
+    @CacheEvict(value = "setmealCache",allEntries = true)//清除缓存
     public R<String> delete(@RequestParam(name = "ids") List<Long> ids){
         log.info("删除套餐数据"+ids);
 
@@ -100,6 +102,7 @@ public class SetmealController {
     }
 
     @GetMapping("/list")
+    @Cacheable(value = "setmealCache",key = "#setmeal.categoryId+'_'+#setmeal.status")//缓存数据
     public R<List<Setmeal>> list(Setmeal setmeal){
         LambdaQueryWrapper<Setmeal> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(setmeal.getCategoryId()!=null,Setmeal::getCategoryId,setmeal.getCategoryId());

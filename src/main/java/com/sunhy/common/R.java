@@ -1,17 +1,19 @@
 package com.sunhy.common;
 
-import com.sunhy.entity.Employee;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 @Data
-public class R<T> {
+public class R<T> implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private Integer code; //编码：1成功，0和其它数字为失败
 

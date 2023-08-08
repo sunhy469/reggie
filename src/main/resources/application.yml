@@ -17,12 +17,15 @@ spring:
       password: 123456
       database: 0
 
+  cache:
+    redis:
       jedis:
         pool:
           max-wait: 1ms
           max-active: 8
           max-idle: 4
           min-idle: 0
+      time-to-live: 1800000ms # 30分钟过期
 
 
 
